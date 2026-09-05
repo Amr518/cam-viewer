@@ -58,24 +58,25 @@
       background: #388bfd;
     }
 
-    /* Floating control panel (Scaled down ~10%) */
+    /* Floating control panel - ultra compact & sleek */
     .dashboard {
       position: absolute;
       top: 15px;
       right: 15px;
-      background: rgba(18, 22, 28, 0.95);
-      border: 1px solid #30363d;
-      padding: 13px;
-      border-radius: 7px;
-      width: 260px;
-      max-width: calc(100vw - 30px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      background: rgba(15, 18, 24, 0.94);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 10px;
+      border-radius: 8px;
+      width: 200px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
       z-index: 25;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       transition: transform 0.25s ease, opacity 0.2s ease;
     }
     
     .dashboard.collapsed {
-      transform: translateY(-10px);
+      transform: translateY(-8px);
       opacity: 0;
       pointer-events: none;
     }
@@ -84,12 +85,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 11px;
-      border-bottom: 1px solid #30363d;
-      padding-bottom: 6px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 5px;
     }
     .dashboard-header h2 {
-      font-size: 12px;
+      font-size: 10.5px;
       color: #f0f6fc;
       font-weight: 600;
       letter-spacing: 0.5px;
@@ -99,14 +100,14 @@
       background: transparent;
       border: none;
       color: #8b949e;
-      width: 22px;
-      height: 22px;
-      border-radius: 4px;
+      width: 18px;
+      height: 18px;
+      border-radius: 3px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 13px;
       transition: background 0.2s, color 0.2s;
     }
     .close-btn:hover {
@@ -115,15 +116,15 @@
     }
 
     .control-group {
-      margin-bottom: 11px;
+      margin-bottom: 8px;
     }
     .control-group:last-child {
       margin-bottom: 0;
     }
     label {
       display: block;
-      font-size: 10px;
-      margin-bottom: 5px;
+      font-size: 8.5px;
+      margin-bottom: 3px;
       color: #8b949e;
       font-weight: 600;
       text-transform: uppercase;
@@ -132,9 +133,9 @@
     
     input[type="range"] {
       width: 100%;
-      height: 5px;
+      height: 4px;
       background: #30363d;
-      border-radius: 3px;
+      border-radius: 2px;
       outline: none;
       accent-color: #1f6feb;
       cursor: pointer;
@@ -143,16 +144,16 @@
     .btn-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 5px;
+      gap: 4px;
     }
     button.ctrl-btn {
       background: #21262d;
       color: #c9d1d9;
       border: 1px solid #30363d;
-      padding: 6px 5px;
-      border-radius: 5px;
+      padding: 5px 4px;
+      border-radius: 4px;
       cursor: pointer;
-      font-size: 10px;
+      font-size: 8.5px;
       font-weight: 500;
       transition: all 0.15s ease;
       text-align: center;
@@ -168,9 +169,9 @@
       left: 15px;
       background: rgba(18, 22, 28, 0.9);
       border: 1px solid #30363d;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 10px;
       color: #c9d1d9;
       font-weight: 600;
       letter-spacing: 0.5px;
@@ -185,10 +186,10 @@
       transform: translateX(-50%);
       background: rgba(18, 22, 28, 0.92);
       border: 1px solid #30363d;
-      padding: 4px 10px;
-      border-radius: 20px;
+      padding: 3px 8px;
+      border-radius: 18px;
       display: flex;
-      gap: 6px;
+      gap: 5px;
       z-index: 15;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
     }
@@ -196,9 +197,9 @@
       background: transparent;
       border: none;
       color: #8b949e;
-      font-size: 11px;
-      padding: 5px 8px;
-      border-radius: 12px;
+      font-size: 10px;
+      padding: 4px 7px;
+      border-radius: 10px;
       cursor: pointer;
       font-weight: 500;
     }
@@ -211,11 +212,11 @@
     @media (max-width: 600px) {
       .dashboard {
         top: auto;
-        bottom: 60px;
+        bottom: 55px;
         right: 10px;
-        left: 10px;
-        width: auto;
-        max-width: none;
+        left: auto;
+        width: 175px;
+        padding: 8px;
       }
       .part-tag {
         display: none;
@@ -418,12 +419,12 @@
         camBaseShape.holes.push(bp);
       });
 
-      const camBaseGeo = new THREE.ExtrudeGeometry(camBaseShape, { depth: 8, bevelEnabled: true, bevelSegments: 2, bevelSize: 0.8, bevelThickness: 0.8 });
+      const camBaseGeo = new THREE.ExtrudeGeometry(camBaseShape, { depth: 4.8, bevelEnabled: true, bevelSegments: 2, bevelSize: 0.5, bevelThickness: 0.5 });
       const camBaseMesh = new THREE.Mesh(camBaseGeo, steelDarkPatina);
-      camBaseMesh.position.z = -14;
+      camBaseMesh.position.z = -8.4;
       rearCamGroup.add(camBaseMesh);
 
-      // Recessed socket rim (z = -6 to 0)
+      // Recessed socket rim (z = -3.6 to 0, depth = 3.6mm)
       const camRimShape = new THREE.Shape();
       camRimShape.moveTo(camPoints[0][0], camPoints[0][1]);
       for (let i = 1; i < camPoints.length; i++) {
@@ -441,26 +442,26 @@
         camRimShape.holes.push(bp);
       });
 
-      const camRimGeo = new THREE.ExtrudeGeometry(camRimShape, { depth: 6, bevelEnabled: true, bevelSegments: 2, bevelSize: 0.6, bevelThickness: 0.6 });
+      const camRimGeo = new THREE.ExtrudeGeometry(camRimShape, { depth: 3.6, bevelEnabled: true, bevelSegments: 2, bevelSize: 0.4, bevelThickness: 0.4 });
       const camRimMesh = new THREE.Mesh(camRimGeo, steelDarkPatina);
-      camRimMesh.position.z = -6;
+      camRimMesh.position.z = -3.6;
       rearCamGroup.add(camRimMesh);
 
       // Inner socket wall
-      const socketCylGeo = new THREE.CylinderGeometry(25.1, 25.1, 6.0, 48, 1, true);
+      const socketCylGeo = new THREE.CylinderGeometry(25.1, 25.1, 3.6, 48, 1, true);
       const socketCylMesh = new THREE.Mesh(socketCylGeo, socketInteriorMat);
       socketCylMesh.rotation.x = Math.PI / 2;
-      socketCylMesh.position.set(0, 0, -3.0);
+      socketCylMesh.position.set(0, 0, -1.8);
       rearCamGroup.add(socketCylMesh);
 
-      // Socket floor at z = -5.95
+      // Socket floor at z = -3.58
       const socketFloorShape = new THREE.Shape();
       socketFloorShape.absarc(0, 0, 25.1, 0, Math.PI * 2, false);
       const floorAxleHole = new THREE.Path();
       floorAxleHole.absarc(0, 0, 12.05, 0, Math.PI * 2, true);
       socketFloorShape.holes.push(floorAxleHole);
       const socketFloorMesh = new THREE.Mesh(new THREE.ShapeGeometry(socketFloorShape), socketInteriorMat);
-      socketFloorMesh.position.z = -5.95;
+      socketFloorMesh.position.z = -3.58;
       rearCamGroup.add(socketFloorMesh);
 
       // Stamped part code S145 65
@@ -482,14 +483,14 @@
         metalness: 0.8
       });
       const stampPlane = new THREE.Mesh(new THREE.PlaneGeometry(28, 14), stampMat);
-      stampPlane.position.set(8, 5, -14.85);
+      stampPlane.position.set(8, 5, -8.5);
       stampPlane.rotation.y = Math.PI;
       rearCamGroup.add(stampPlane);
 
       scene.add(rearCamGroup);
 
       // -------------------------------------------------------------
-      // 2. Front Flange & Concentric Mating Neck
+      // 2. Front Flange & Concentric Mating Neck (40% reduced: depth = 10.8mm)
       // -------------------------------------------------------------
       frontFlangeGroup = new THREE.Group();
       frontFlangeGroup.position.set(0, 0, 0);
@@ -508,51 +509,51 @@
       });
 
       const flangeGeo = new THREE.ExtrudeGeometry(flangeShape, {
-        depth: 18,
+        depth: 10.8,
         bevelEnabled: true,
         bevelSegments: 2,
-        bevelSize: 0.8,
-        bevelThickness: 0.8
+        bevelSize: 0.5,
+        bevelThickness: 0.5
       });
       const flangeMesh = new THREE.Mesh(flangeGeo, machinedFlangeMat);
       flangeMesh.position.z = 0;
       frontFlangeGroup.add(flangeMesh);
 
-      // Neck extending into cam socket
+      // Neck extending into cam socket (depth 3.5mm)
       const neckShape = new THREE.Shape();
       neckShape.absarc(0, 0, 24.8, 0, Math.PI * 2, false);
       const neckAxleHole = new THREE.Path();
       neckAxleHole.absarc(0, 0, 12, 0, Math.PI * 2, true);
       neckShape.holes.push(neckAxleHole);
 
-      const neckGeo = new THREE.ExtrudeGeometry(neckShape, { depth: 5.9, bevelEnabled: true, bevelSegments: 1, bevelSize: 0.3, bevelThickness: 0.3 });
+      const neckGeo = new THREE.ExtrudeGeometry(neckShape, { depth: 3.5, bevelEnabled: true, bevelSegments: 1, bevelSize: 0.2, bevelThickness: 0.2 });
       const neckMesh = new THREE.Mesh(neckGeo, neckCollarMat);
-      neckMesh.position.z = -5.9;
+      neckMesh.position.z = -3.5;
       frontFlangeGroup.add(neckMesh);
 
-      // Counterbore bolt recesses
+      // Counterbore bolt recesses at z = 9.1
       boltAngles.forEach(ang => {
         const bx = Math.cos(ang) * boltRadius;
         const by = Math.sin(ang) * boltRadius;
-        const cbHole = new THREE.Mesh(new THREE.CylinderGeometry(5.6, 5.6, 6, 20), recessMat);
+        const cbHole = new THREE.Mesh(new THREE.CylinderGeometry(5.6, 5.6, 3.8, 20), recessMat);
         cbHole.rotation.x = Math.PI / 2;
-        cbHole.position.set(bx, by, 15.5);
+        cbHole.position.set(bx, by, 9.1);
         frontFlangeGroup.add(cbHole);
       });
 
-      // Lateral bore for brass cartridge pin
+      // Lateral bore for brass cartridge pin (at z = 5.4)
       const lateralBoreGeo = new THREE.CylinderGeometry(8.5, 8.5, 24, 28);
       const lateralBore = new THREE.Mesh(lateralBoreGeo, holeDarkMat);
-      lateralBore.position.set(0, -31, 9);
+      lateralBore.position.set(0, -31, 5.4);
       frontFlangeGroup.add(lateralBore);
 
       scene.add(frontFlangeGroup);
 
       // -------------------------------------------------------------
-      // 3. Brass Detent Pin Assembly
+      // 3. Brass Detent Pin Assembly (at z = 5.4)
       // -------------------------------------------------------------
       brassAssemblyGroup = new THREE.Group();
-      brassAssemblyGroup.position.set(0, -31, 9);
+      brassAssemblyGroup.position.set(0, -31, 5.4);
 
       const brassSleeveGeo = new THREE.CylinderGeometry(8.2, 8.2, 22, 28);
       const brassSleeve = new THREE.Mesh(brassSleeveGeo, brassMat);
@@ -576,22 +577,22 @@
       scene.add(brassAssemblyGroup);
 
       // -------------------------------------------------------------
-      // 4. Fasteners (4x Socket Head Bolts)
+      // 4. Fasteners (4x Socket Head Bolts, seated at z = 9.1)
       // -------------------------------------------------------------
-      const boltShaftGeo = new THREE.CylinderGeometry(3.4, 3.4, 28, 16);
-      const boltHeadGeo = new THREE.CylinderGeometry(5.4, 5.4, 6, 20);
-      const hexKeyGeo = new THREE.CylinderGeometry(2.4, 2.4, 3, 6);
+      const boltShaftGeo = new THREE.CylinderGeometry(3.4, 3.4, 18, 16);
+      const boltHeadGeo = new THREE.CylinderGeometry(5.4, 5.4, 4.5, 20);
+      const hexKeyGeo = new THREE.CylinderGeometry(2.4, 2.4, 2.5, 6);
 
       boltAngles.forEach(ang => {
         const bg = new THREE.Group();
         const bx = Math.cos(ang) * boltRadius;
         const by = Math.sin(ang) * boltRadius;
         bg.userData = { baseX: bx, baseY: by };
-        bg.position.set(bx, by, 15);
+        bg.position.set(bx, by, 9.1);
 
         const shaft = new THREE.Mesh(boltShaftGeo, blackScrewMat);
         shaft.rotation.x = Math.PI / 2;
-        shaft.position.z = -14;
+        shaft.position.z = -9.0;
         bg.add(shaft);
 
         const head = new THREE.Mesh(boltHeadGeo, blackScrewMat);
@@ -601,7 +602,7 @@
 
         const hexHole = new THREE.Mesh(hexKeyGeo, holeDarkMat);
         hexHole.rotation.x = Math.PI / 2;
-        hexHole.position.z = 2.5;
+        hexHole.position.z = 2.0;
         bg.add(hexHole);
 
         boltGroups.push(bg);
@@ -630,10 +631,10 @@
     }
 
     function applyExplodedView(val) {
-      frontFlangeGroup.position.z = val * 55;
-      brassAssemblyGroup.position.set(0, -31 - (val * 35), 9 + (val * 55));
+      frontFlangeGroup.position.z = val * 38;
+      brassAssemblyGroup.position.set(0, -31 - (val * 24), 5.4 + (val * 38));
       boltGroups.forEach(bg => {
-        bg.position.z = 15 + (val * 90);
+        bg.position.z = 9.1 + (val * 55);
       });
     }
 
