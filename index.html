@@ -401,68 +401,43 @@
         Math.PI * 1.75
       ];
 
-      // Base body (z = -14 to -6)
-      const camBaseShape = new THREE.Shape();
-      camBaseShape.moveTo(camPoints[0][0], camPoints[0][1]);
+      // Single seamless solid cam body from z = -8.4 to 0 (No seam line)
+      const camSolidShape = new THREE.Shape();
+      camSolidShape.moveTo(camPoints[0][0], camPoints[0][1]);
       for (let i = 1; i < camPoints.length; i++) {
-        camBaseShape.lineTo(camPoints[i][0], camPoints[i][1]);
+        camSolidShape.lineTo(camPoints[i][0], camPoints[i][1]);
       }
-      camBaseShape.closePath();
+      camSolidShape.closePath();
 
-      const axleHolePath = new THREE.Path();
-      axleHolePath.absarc(0, 0, 12, 0, Math.PI * 2, true);
-      camBaseShape.holes.push(axleHolePath);
-
-      boltAngles.forEach(ang => {
-        const bp = new THREE.Path();
-        bp.absarc(Math.cos(ang) * boltRadius, Math.sin(ang) * boltRadius, 3.6, 0, Math.PI * 2, true);
-        camBaseShape.holes.push(bp);
-      });
-
-      const camBaseGeo = new THREE.ExtrudeGeometry(camBaseShape, { depth: 4.8, bevelEnabled: true, bevelSegments: 2, bevelSize: 0.5, bevelThickness: 0.5 });
-      const camBaseMesh = new THREE.Mesh(camBaseGeo, steelDarkPatina);
-      camBaseMesh.position.z = -8.4;
-      rearCamGroup.add(camBaseMesh);
-
-      // Recessed socket rim (z = -3.6 to 0, depth = 3.6mm)
-      const camRimShape = new THREE.Shape();
-      camRimShape.moveTo(camPoints[0][0], camPoints[0][1]);
-      for (let i = 1; i < camPoints.length; i++) {
-        camRimShape.lineTo(camPoints[i][0], camPoints[i][1]);
-      }
-      camRimShape.closePath();
-
+      // Socket hole (radius 25.2mm)
       const socketHolePath = new THREE.Path();
       socketHolePath.absarc(0, 0, 25.2, 0, Math.PI * 2, true);
-      camRimShape.holes.push(socketHolePath);
+      camSolidShape.holes.push(socketHolePath);
 
       boltAngles.forEach(ang => {
         const bp = new THREE.Path();
         bp.absarc(Math.cos(ang) * boltRadius, Math.sin(ang) * boltRadius, 3.6, 0, Math.PI * 2, true);
-        camRimShape.holes.push(bp);
+        camSolidShape.holes.push(bp);
       });
 
-      const camRimGeo = new THREE.ExtrudeGeometry(camRimShape, { depth: 3.6, bevelEnabled: true, bevelSegments: 2, bevelSize: 0.4, bevelThickness: 0.4 });
-      const camRimMesh = new THREE.Mesh(camRimGeo, steelDarkPatina);
-      camRimMesh.position.z = -3.6;
-      rearCamGroup.add(camRimMesh);
+      // Single continuous extrusion: depth = 8.4mm (z = -8.4 to 0)
+      const camSolidGeo = new THREE.ExtrudeGeometry(camSolidShape, { depth: 8.4, bevelEnabled: true, bevelSegments: 2, bevelSize: 0.4, bevelThickness: 0.4 });
+      const camSolidMesh = new THREE.Mesh(camSolidGeo, steelDarkPatina);
+      camSolidMesh.position.z = -8.4;
+      rearCamGroup.add(camSolidMesh);
 
-      // Inner socket wall
-      const socketCylGeo = new THREE.CylinderGeometry(25.1, 25.1, 3.6, 48, 1, true);
-      const socketCylMesh = new THREE.Mesh(socketCylGeo, socketInteriorMat);
-      socketCylMesh.rotation.x = Math.PI / 2;
-      socketCylMesh.position.set(0, 0, -1.8);
-      rearCamGroup.add(socketCylMesh);
+      // Socket floor back plug (interior only: fills z = -8.4 to -3.6 at radius 25.15)
+      const socketBackGeo = new THREE.CylinderGeometry(25.15, 25.15, 4.8, 48);
+      const socketBackMesh = new THREE.Mesh(socketBackGeo, steelDarkPatina);
+      socketBackMesh.rotation.x = Math.PI / 2;
+      socketBackMesh.position.set(0, 0, -6.0);
+      rearCamGroup.add(socketBackMesh);
 
-      // Socket floor at z = -3.58
-      const socketFloorShape = new THREE.Shape();
-      socketFloorShape.absarc(0, 0, 25.1, 0, Math.PI * 2, false);
-      const floorAxleHole = new THREE.Path();
-      floorAxleHole.absarc(0, 0, 12.05, 0, Math.PI * 2, true);
-      socketFloorShape.holes.push(floorAxleHole);
-      const socketFloorMesh = new THREE.Mesh(new THREE.ShapeGeometry(socketFloorShape), socketInteriorMat);
-      socketFloorMesh.position.z = -3.58;
-      rearCamGroup.add(socketFloorMesh);
+      // Central axle through-hole inside the floor plug (radius 12)
+      const socketAxleHole = new THREE.Mesh(new THREE.CylinderGeometry(12.05, 12.05, 4.85, 32), holeDarkMat);
+      socketAxleHole.rotation.x = Math.PI / 2;
+      socketAxleHole.position.set(0, 0, -6.0);
+      rearCamGroup.add(socketAxleHole);
 
       // Stamped part code S145 65
       const canvas = document.createElement('canvas');
@@ -541,8 +516,8 @@
         frontFlangeGroup.add(cbHole);
       });
 
-      // Lateral bore for brass cartridge pin (at z = 5.4)
-      const lateralBoreGeo = new THREE.CylinderGeometry(8.5, 8.5, 24, 28);
+      // Lateral bore for brass cartridge pin (at z = 5.4, radius 4.9mm fits inside 10.8mm flange)
+      const lateralBoreGeo = new THREE.CylinderGeometry(4.9, 4.9, 20, 28);
       const lateralBore = new THREE.Mesh(lateralBoreGeo, holeDarkMat);
       lateralBore.position.set(0, -31, 5.4);
       frontFlangeGroup.add(lateralBore);
@@ -550,28 +525,29 @@
       scene.add(frontFlangeGroup);
 
       // -------------------------------------------------------------
-      // 3. Brass Detent Pin Assembly (at z = 5.4)
+      // 3. Brass Retaining Detent Pin Assembly (at z = 5.4, diameter = 9.6mm)
       // -------------------------------------------------------------
       brassAssemblyGroup = new THREE.Group();
       brassAssemblyGroup.position.set(0, -31, 5.4);
 
-      const brassSleeveGeo = new THREE.CylinderGeometry(8.2, 8.2, 22, 28);
+      // Pin cylinder radius = 4.8mm (diameter 9.6mm, flush within 10.8mm flange)
+      const brassSleeveGeo = new THREE.CylinderGeometry(4.8, 4.8, 16, 28);
       const brassSleeve = new THREE.Mesh(brassSleeveGeo, brassMat);
       brassAssemblyGroup.add(brassSleeve);
 
-      const notchGeo = new THREE.BoxGeometry(6.5, 9, 9);
+      const notchGeo = new THREE.BoxGeometry(3.6, 5.0, 5.0);
       const notchMesh = new THREE.Mesh(notchGeo, recessMat);
-      notchMesh.position.set(4.0, 1.5, 0);
+      notchMesh.position.set(2.4, 1.0, 0);
       brassAssemblyGroup.add(notchMesh);
 
-      const screwHeadGeo = new THREE.CylinderGeometry(5.0, 5.0, 6.5, 20);
+      const screwHeadGeo = new THREE.CylinderGeometry(3.2, 3.2, 4.5, 20);
       const screwHead = new THREE.Mesh(screwHeadGeo, blackScrewMat);
-      screwHead.position.set(0, -13, 0);
+      screwHead.position.set(0, -9.5, 0);
       brassAssemblyGroup.add(screwHead);
 
-      const hexSocketGeo = new THREE.CylinderGeometry(2.5, 2.5, 3, 6);
+      const hexSocketGeo = new THREE.CylinderGeometry(1.6, 1.6, 2.0, 6);
       const hexSocket = new THREE.Mesh(hexSocketGeo, holeDarkMat);
-      hexSocket.position.set(0, -15.2, 0);
+      hexSocket.position.set(0, -11.0, 0);
       brassAssemblyGroup.add(hexSocket);
 
       scene.add(brassAssemblyGroup);
