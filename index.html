@@ -426,20 +426,23 @@
       camSolidMesh.position.z = -8.4;
       rearCamGroup.add(camSolidMesh);
 
-      // Socket floor back plug (interior only: fills z = -8.4 to -3.6 at radius 25.15)
-      const socketBackGeo = new THREE.CylinderGeometry(25.15, 25.15, 4.8, 48);
-      const socketBackMesh = new THREE.Mesh(socketBackGeo, steelDarkPatina);
-      socketBackMesh.rotation.x = Math.PI / 2;
-      socketBackMesh.position.set(0, 0, -6.0);
-      rearCamGroup.add(socketBackMesh);
+      // Socket floor back ring (depth = 4.8mm, extends from z = -8.4 to -3.6)
+      // True open through-hole for shaft (radius 12mm) completely open through like the flange!
+      const socketRingShape = new THREE.Shape();
+      socketRingShape.absarc(0, 0, 25.15, 0, Math.PI * 2, false);
+      const axleThroughHole = new THREE.Path();
+      axleThroughHole.absarc(0, 0, 12.0, 0, Math.PI * 2, true);
+      socketRingShape.holes.push(axleThroughHole);
 
-      // Central axle through-hole inside the floor plug (radius 12)
-      const socketAxleHole = new THREE.Mesh(new THREE.CylinderGeometry(12.05, 12.05, 4.85, 32), holeDarkMat);
-      socketAxleHole.rotation.x = Math.PI / 2;
-      socketAxleHole.position.set(0, 0, -6.0);
-      rearCamGroup.add(socketAxleHole);
+      const socketRingGeo = new THREE.ExtrudeGeometry(socketRingShape, {
+        depth: 4.8,
+        bevelEnabled: false
+      });
+      const socketRingMesh = new THREE.Mesh(socketRingGeo, steelDarkPatina);
+      socketRingMesh.position.z = -8.4;
+      rearCamGroup.add(socketRingMesh);
 
-      // Stamped part code S145 65
+      // Stamped part code S145 65 on rear lobe (positioned away from central hole)
       const canvas = document.createElement('canvas');
       canvas.width = 512; canvas.height = 256;
       const ctx = canvas.getContext('2d');
@@ -458,7 +461,7 @@
         metalness: 0.8
       });
       const stampPlane = new THREE.Mesh(new THREE.PlaneGeometry(28, 14), stampMat);
-      stampPlane.position.set(8, 5, -8.5);
+      stampPlane.position.set(0, -36, -8.5);
       stampPlane.rotation.y = Math.PI;
       rearCamGroup.add(stampPlane);
 
