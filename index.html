@@ -1,64 +1,81 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>MGM Cam - فحص وتجميع الكامة الميكانيكية (S145 65)</title>
-  <meta name="description" content="منظومة MGM Cam الهندسية للفحص ثلاثي الأبعاد وتفكيك الكامة الميكانيكية وتحليل الإجهادات (قطعة S145 65).">
-  <meta property="og:title" content="MGM Cam - فحص وتجميع الكامة الميكانيكية (S145 65)">
-  <meta property="og:description" content="منظومة MGM Cam الهندسية للفحص ثلاثي الأبعاد وتفكيك الكامة الميكانيكية وتحليل الإجهادات (قطعة S145 65).">
+  <title>MGM Cam - S145 65</title>
+  <meta name="description" content="3D CAD Assembly & Part Inspection - MGM Cam (S145 65).">
+  <meta property="og:title" content="MGM Cam - S145 65">
+  <meta property="og:description" content="3D CAD Assembly & Part Inspection - MGM Cam (S145 65).">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="MGM Cam">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; -webkit-tap-highlight-color: transparent; }
-    body { overflow: hidden; background: #0b0e13; color: #fff; width: 100vw; height: 100vh; position: fixed; }
-    #canvas-container { width: 100%; height: 100%; position: absolute; top: 0; left: 0; touch-action: none; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body {
+      overflow: hidden;
+      background: #0b0e13;
+      color: #f0f6fc;
+      width: 100vw;
+      height: 100vh;
+      position: fixed;
+    }
+    #canvas-container {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      touch-action: none;
+    }
     
-    /* زر الفتح/الإغلاق العائم للوحة التحكم */
+    /* Toggle dashboard button */
     .toggle-dashboard-btn {
       position: absolute;
       top: 15px;
       right: 15px;
       z-index: 20;
-      background: rgba(31, 111, 235, 0.9);
+      background: #1f6feb;
       color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-      transition: all 0.25s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      transition: all 0.2s ease;
     }
-    .toggle-dashboard-btn:hover { background: #388bfd; }
+    .toggle-dashboard-btn:hover {
+      background: #388bfd;
+    }
 
-    /* لوحة التحكم الجانبية */
+    /* Floating control panel */
     .dashboard {
       position: absolute;
       top: 15px;
       right: 15px;
       background: rgba(18, 22, 28, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: 18px;
-      border-radius: 14px;
-      width: 320px;
+      border: 1px solid #30363d;
+      padding: 16px;
+      border-radius: 8px;
+      width: 290px;
       max-width: calc(100vw - 30px);
-      box-shadow: 0 10px 35px rgba(0,0,0,0.7);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
       z-index: 25;
-      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
-      max-height: 82vh;
-      overflow-y: auto;
+      transition: transform 0.25s ease, opacity 0.2s ease;
     }
     
     .dashboard.collapsed {
-      transform: translateY(-20px) scale(0.95);
+      transform: translateY(-10px);
       opacity: 0;
       pointer-events: none;
     }
@@ -67,45 +84,67 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       border-bottom: 1px solid #30363d;
       padding-bottom: 8px;
     }
     .dashboard-header h2 {
-      font-size: 14px;
-      color: #58a6ff;
-      font-weight: 700;
+      font-size: 13px;
+      color: #f0f6fc;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
     .close-btn {
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #c9d1d9;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
+      background: transparent;
+      border: none;
+      color: #8b949e;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 14px;
-      transition: background 0.2s;
+      font-size: 16px;
+      transition: background 0.2s, color 0.2s;
     }
-    .close-btn:hover { background: #f85149; color: #fff; }
+    .close-btn:hover {
+      background: #30363d;
+      color: #fff;
+    }
 
-    .control-group { margin-bottom: 14px; }
-    label { display: block; font-size: 12px; margin-bottom: 6px; color: #8b949e; font-weight: 600; }
+    .control-group {
+      margin-bottom: 14px;
+    }
+    .control-group:last-child {
+      margin-bottom: 0;
+    }
+    label {
+      display: block;
+      font-size: 11px;
+      margin-bottom: 6px;
+      color: #8b949e;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
     
     input[type="range"] {
       width: 100%;
-      height: 8px;
+      height: 6px;
       background: #30363d;
-      border-radius: 4px;
+      border-radius: 3px;
       outline: none;
-      accent-color: #238636;
+      accent-color: #1f6feb;
       cursor: pointer;
     }
     
-    .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
+    .btn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
     button.ctrl-btn {
       background: #21262d;
       color: #c9d1d9;
@@ -114,94 +153,73 @@
       border-radius: 6px;
       cursor: pointer;
       font-size: 11px;
-      font-weight: 600;
-      transition: all 0.2s ease;
+      font-weight: 500;
+      transition: all 0.15s ease;
       text-align: center;
     }
-    button.ctrl-btn:hover, button.ctrl-btn:active { background: #30363d; color: #fff; border-color: #8b949e; }
-    button.ctrl-btn.active-btn { background: #1f6feb; border-color: #388bfd; color: #fff; }
-    
-    .part-info-card {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid #30363d;
-      padding: 10px;
-      border-radius: 8px;
-      font-size: 11px;
-      color: #8b949e;
-      line-height: 1.6;
-    }
-    .part-info-card strong { color: #f0f6fc; }
-    
-    .status-badge {
-      background: rgba(35, 134, 54, 0.15);
-      border: 1px solid rgba(35, 134, 54, 0.4);
-      color: #3fb950;
-      padding: 8px 10px;
-      border-radius: 6px;
-      font-size: 11px;
-      margin-top: 10px;
-      width: 100%;
-      text-align: center;
-      line-height: 1.5;
+    button.ctrl-btn:hover {
+      background: #30363d;
+      color: #fff;
     }
 
-    /* شريط أدوات سفلي دائم وسريع */
+    .part-tag {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: rgba(18, 22, 28, 0.9);
+      border: 1px solid #30363d;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      color: #c9d1d9;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      pointer-events: none;
+      z-index: 10;
+    }
+
     .quick-bar {
       position: absolute;
       bottom: 15px;
       left: 50%;
       transform: translateX(-50%);
       background: rgba(18, 22, 28, 0.92);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 6px 14px;
-      border-radius: 30px;
+      border: 1px solid #30363d;
+      padding: 4px 10px;
+      border-radius: 20px;
       display: flex;
-      gap: 8px;
+      gap: 6px;
       z-index: 15;
-      backdrop-filter: blur(12px);
-      box-shadow: 0 6px 25px rgba(0,0,0,0.6);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
     }
     .quick-bar button {
       background: transparent;
       border: none;
-      color: #c9d1d9;
+      color: #8b949e;
       font-size: 11px;
       padding: 5px 8px;
-      border-radius: 15px;
+      border-radius: 12px;
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-weight: 600;
+      font-weight: 500;
     }
-    .quick-bar button:active { background: rgba(255,255,255,0.1); color: #fff; }
-
-    .part-tag {
-      position: absolute;
-      top: 15px;
-      left: 15px;
-      background: rgba(18, 22, 28, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 8px 14px;
-      border-radius: 20px;
-      font-size: 11px;
-      color: #58a6ff;
-      font-weight: bold;
-      pointer-events: none;
-      z-index: 10;
+    .quick-bar button:hover,
+    .quick-bar button:active {
+      background: #30363d;
+      color: #fff;
     }
 
     @media (max-width: 600px) {
       .dashboard {
         top: auto;
-        bottom: 65px;
-        right: 12px;
-        left: 12px;
+        bottom: 60px;
+        right: 10px;
+        left: 10px;
         width: auto;
         max-width: none;
-        max-height: 60vh;
       }
-      .part-tag { display: none; }
+      .part-tag {
+        display: none;
+      }
     }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -212,84 +230,55 @@
   <div id="canvas-container"></div>
 
   <div class="part-tag">
-    MGM Cam | كود القطعة: S145 65
+    MGM Cam &bull; S145 65
   </div>
 
-  <!-- زر فتح لوحة التحكم عند إخفائها -->
   <button id="openDashboardBtn" class="toggle-dashboard-btn" style="display: none;" onclick="toggleDashboard(true)">
-    لوحة الفحص والتحكم
+    Controls
   </button>
 
-  <!-- لوحة التحكم القابلة للطي -->
   <div id="mainDashboard" class="dashboard">
     <div class="dashboard-header">
-      <h2>MGM Cam - لوحة الفحص والتحكم</h2>
-      <button class="close-btn" title="إخفاء اللوحة" onclick="toggleDashboard(false)">✕</button>
+      <h2>Control Panel</h2>
+      <button class="close-btn" title="Close" onclick="toggleDashboard(false)">&times;</button>
     </div>
     
     <div class="control-group">
-      <label for="explodeRange">تفكيك الأجزاء (Exploded View):</label>
+      <label for="explodeRange">Exploded View</label>
       <input type="range" id="explodeRange" min="0" max="1" step="0.01" value="0">
     </div>
 
     <div class="control-group">
-      <label>أوضاع سريعة:</label>
+      <label>Assembly</label>
       <div class="btn-grid">
-        <button class="ctrl-btn" onclick="setExplode(0)">🔒 تجميع كامل (مغلق)</button>
-        <button class="ctrl-btn" onclick="setExplode(1)">🔓 تفكيك كامل</button>
+        <button class="ctrl-btn" onclick="setExplode(0)">Assemble</button>
+        <button class="ctrl-btn" onclick="setExplode(1)">Explode</button>
       </div>
     </div>
 
     <div class="control-group">
-      <label>تركيز المنظور (Camera Focus):</label>
+      <label>Camera Views</label>
       <div class="btn-grid">
-        <button class="ctrl-btn" onclick="focusOn('all')">المنظور العام</button>
-        <button class="ctrl-btn" style="color: #58a6ff; font-weight: bold;" onclick="focusOn('pocket')">🔍 منطقة الرقبة والمقعد</button>
-        <button class="ctrl-btn" style="color: #ff7b72; font-weight: bold;" onclick="focusOn('crack')">🔍 مكان الكسر</button>
-        <button class="ctrl-btn" onclick="focusOn('cam_back')">📷 ظهر الكامة (S145)</button>
+        <button class="ctrl-btn" onclick="focusOn('all')">Isometric</button>
+        <button class="ctrl-btn" onclick="focusOn('front')">Front Face</button>
+        <button class="ctrl-btn" onclick="focusOn('pocket')">Mating Neck</button>
+        <button class="ctrl-btn" onclick="focusOn('cam_back')">Rear Profile</button>
       </div>
-    </div>
-
-    <div class="control-group">
-      <label>عمود الدوران (الأكس Shaft):</label>
-      <div class="btn-grid">
-        <button id="shaftToggleBtn" class="ctrl-btn" onclick="toggleShaft()">🔩 إظهار الأكس النافذ</button>
-        <button id="modeStressBtn" class="ctrl-btn active-btn" onclick="toggleStressMode(true)">تحليل الإجهاد 🔴</button>
-      </div>
-    </div>
-
-    <div class="control-group">
-      <button id="rotateToggle" class="ctrl-btn" style="width: 100%;" onclick="toggleAutoRotate()">إيقاف الدوران التلقائي</button>
-    </div>
-
-    <div class="part-info-card">
-      • <strong>التجميع (قيمة 0):</strong> الفلنشة ملتصقة تماماً بالكامة مع انغلاق الرقبة بنسبة 100% داخل المقعد الغائر وإحكام المسامير الأربعة بدون أي فراغ.<br>
-      • <strong>التفكيك (قيمة 1):</strong> تباعد محوري منتظم يكشف الرقبة وتجويف المقعد الغائر والأكس النافذ.
-    </div>
-
-    <div class="status-badge" id="assemblyBadge">
-      ✅ الأجزاء مجمعة ومحكمة الربط حالياً (Zero Gap)
     </div>
   </div>
 
-  <!-- شريط سريع دائم في الأسفل -->
   <div class="quick-bar">
-    <button onclick="focusOn('all')">🔄 عام</button>
-    <button onclick="setExplode(0)">🔒 تجميع</button>
-    <button onclick="setExplode(0.8)">🔓 تفكيك</button>
-    <button onclick="toggleShaft()" id="quickShaftBtn">🔩 الأكس</button>
-    <button onclick="toggleAutoRotate()" id="quickRotateBtn">⏸️ دوران</button>
-    <button onclick="toggleDashboard()">⚙️ تفاصيل</button>
+    <button onclick="focusOn('all')">Isometric</button>
+    <button onclick="setExplode(0)">Assemble</button>
+    <button onclick="setExplode(1)">Explode</button>
+    <button onclick="toggleDashboard()">Controls</button>
   </div>
 
   <script>
     let scene, camera, renderer, controls;
-    let rearCamGroup, frontFlangeGroup, brassAssemblyGroup, driveShaftMesh, boltGroups = [];
-    let crackMeshRealistic, crackMeshStress;
-    let isStressMode = true;
-    let showShaft = false;
+    let rearCamGroup, frontFlangeGroup, brassAssemblyGroup, boltGroups = [];
 
-    // حركة وانتقال الكاميرا دون تقييد اللمس
+    // Smooth camera view transitions
     let isTransitioning = false;
     let targetCameraPos = new THREE.Vector3(120, 70, 130);
     let targetLookAt = new THREE.Vector3(0, -10, 0);
@@ -311,8 +300,7 @@
       controls = new THREE.OrbitControls(camera, renderer.domElement);
       controls.enableDamping = true;
       controls.dampingFactor = 0.06;
-      controls.autoRotate = true;
-      controls.autoRotateSpeed = 1.2;
+      controls.autoRotate = false; // Stationary by default; user controls rotation
       controls.enablePan = true;
       controls.enableZoom = true;
 
@@ -320,13 +308,17 @@
         isTransitioning = false;
       });
 
-      // الإضاءة الهندسية
+      // Lighting
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
       scene.add(ambientLight);
 
-      const mainLight = new THREE.DirectionalLight(0xffffff, 0.95);
-      mainLight.position.set(120, 160, 140);
-      scene.add(mainLight);
+      const keyLight = new THREE.DirectionalLight(0xffffff, 1.4);
+      keyLight.position.set(120, 150, 160);
+      scene.add(keyLight);
+
+      const fillLight = new THREE.DirectionalLight(0xa0b4c8, 0.9);
+      fillLight.position.set(-100, -80, 100);
+      scene.add(fillLight);
 
       const backLight = new THREE.DirectionalLight(0x58a6ff, 0.65);
       backLight.position.set(-120, 80, -140);
@@ -336,7 +328,7 @@
       pocketLight.position.set(0, 0, 10);
       scene.add(pocketLight);
 
-      // المواد المعدنية
+      // Materials
       const steelDarkPatina = new THREE.MeshStandardMaterial({
         color: 0x5a626c,
         roughness: 0.42,
@@ -379,32 +371,13 @@
         metalness: 0.85
       });
 
-      const groundShaftMat = new THREE.MeshStandardMaterial({
-        color: 0xc4cbd4,
-        roughness: 0.18,
-        metalness: 0.96
-      });
-
       const holeDarkMat = new THREE.MeshBasicMaterial({ color: 0x050709 });
 
-      const stressCrackMat = new THREE.MeshStandardMaterial({
-        color: 0xff1500,
-        emissive: 0xee1500,
-        emissiveIntensity: 0.9,
-        roughness: 0.2
-      });
-
-      const metalCrackMat = new THREE.MeshStandardMaterial({
-        color: 0x22262d,
-        roughness: 0.85,
-        metalness: 0.35
-      });
-
       // -------------------------------------------------------------
-      // 1. الكامة الخلفية (تثبت واجهتها الأمامية تماماً عند z = 0)
+      // 1. Rear Cam Base (Front mating face at z = 0)
       // -------------------------------------------------------------
       rearCamGroup = new THREE.Group();
-      rearCamGroup.position.set(0, 0, 0); // قاعدة الإحداثيات الثابتة
+      rearCamGroup.position.set(0, 0, 0);
 
       const camPoints = [
         [40.0, 0.0], [39.85, 3.49], [39.39, 6.95], [38.64, 10.35], [37.59, 13.68],
@@ -427,7 +400,7 @@
         Math.PI * 1.75
       ];
 
-      // أ. قاعدة الكامة الخلفية (من z = -14 إلى z = -6: سمك 8 مم)
+      // Base body (z = -14 to -6)
       const camBaseShape = new THREE.Shape();
       camBaseShape.moveTo(camPoints[0][0], camPoints[0][1]);
       for (let i = 1; i < camPoints.length; i++) {
@@ -447,11 +420,10 @@
 
       const camBaseGeo = new THREE.ExtrudeGeometry(camBaseShape, { depth: 8, bevelEnabled: true, bevelSegments: 2, bevelSize: 0.8, bevelThickness: 0.8 });
       const camBaseMesh = new THREE.Mesh(camBaseGeo, steelDarkPatina);
-      camBaseMesh.position.z = -14; // تستقر من -14 إلى -6
+      camBaseMesh.position.z = -14;
       rearCamGroup.add(camBaseMesh);
 
-      // ب. جدار وتجويف مقعد الرقبة الأمامي (من z = -6 إلى z = 0: عمق 6 مم)
-      // الواجهة الأمامية للكامة تنتهي تماماً عند z = 0
+      // Recessed socket rim (z = -6 to 0)
       const camRimShape = new THREE.Shape();
       camRimShape.moveTo(camPoints[0][0], camPoints[0][1]);
       for (let i = 1; i < camPoints.length; i++) {
@@ -459,7 +431,6 @@
       }
       camRimShape.closePath();
 
-      // ثقب المقعد الغائر (قطر 50.4 مم)
       const socketHolePath = new THREE.Path();
       socketHolePath.absarc(0, 0, 25.2, 0, Math.PI * 2, true);
       camRimShape.holes.push(socketHolePath);
@@ -472,17 +443,17 @@
 
       const camRimGeo = new THREE.ExtrudeGeometry(camRimShape, { depth: 6, bevelEnabled: true, bevelSegments: 2, bevelSize: 0.6, bevelThickness: 0.6 });
       const camRimMesh = new THREE.Mesh(camRimGeo, steelDarkPatina);
-      camRimMesh.position.z = -6; // تمتد من -6 حتى 0 تماماً
+      camRimMesh.position.z = -6;
       rearCamGroup.add(camRimMesh);
 
-      // جدران داخلية لتجويف المقعد الغائر
+      // Inner socket wall
       const socketCylGeo = new THREE.CylinderGeometry(25.1, 25.1, 6.0, 48, 1, true);
       const socketCylMesh = new THREE.Mesh(socketCylGeo, socketInteriorMat);
       socketCylMesh.rotation.x = Math.PI / 2;
       socketCylMesh.position.set(0, 0, -3.0);
       rearCamGroup.add(socketCylMesh);
 
-      // أرضية مقعد الرقبة عند z = -5.95
+      // Socket floor at z = -5.95
       const socketFloorShape = new THREE.Shape();
       socketFloorShape.absarc(0, 0, 25.1, 0, Math.PI * 2, false);
       const floorAxleHole = new THREE.Path();
@@ -492,7 +463,7 @@
       socketFloorMesh.position.z = -5.95;
       rearCamGroup.add(socketFloorMesh);
 
-      // حفر كود S145 65 على ظهر الكامة
+      // Stamped part code S145 65
       const canvas = document.createElement('canvas');
       canvas.width = 512; canvas.height = 256;
       const ctx = canvas.getContext('2d');
@@ -518,10 +489,10 @@
       scene.add(rearCamGroup);
 
       // -------------------------------------------------------------
-      // 2. الفلنشة الأمامية (تبدأ واجهتها الخلفية من z = 0، ورقبها تمتد للخلف داخل المقعد)
+      // 2. Front Flange & Concentric Mating Neck
       // -------------------------------------------------------------
       frontFlangeGroup = new THREE.Group();
-      frontFlangeGroup.position.set(0, 0, 0); // في وضع التجميع الكامل: z = 0 تماماً
+      frontFlangeGroup.position.set(0, 0, 0);
 
       const flangeShape = new THREE.Shape();
       flangeShape.absarc(0, 0, 40, 0, Math.PI * 2, false);
@@ -536,7 +507,6 @@
         flangeShape.holes.push(bp);
       });
 
-      // قرص الفلنشة: يمتد من z = 0 إلى z = 18 للأمام
       const flangeGeo = new THREE.ExtrudeGeometry(flangeShape, {
         depth: 18,
         bevelEnabled: true,
@@ -545,10 +515,10 @@
         bevelThickness: 0.8
       });
       const flangeMesh = new THREE.Mesh(flangeGeo, machinedFlangeMat);
-      flangeMesh.position.z = 0; // يلتصق مباشرة بواجهة الكامة عند z = 0
+      flangeMesh.position.z = 0;
       frontFlangeGroup.add(flangeMesh);
 
-      // الرقبة البارزة: تمتد للخلف من z = 0 إلى z = -5.9 لتدخل بالكامل في تجويف الكامة
+      // Neck extending into cam socket
       const neckShape = new THREE.Shape();
       neckShape.absarc(0, 0, 24.8, 0, Math.PI * 2, false);
       const neckAxleHole = new THREE.Path();
@@ -557,10 +527,10 @@
 
       const neckGeo = new THREE.ExtrudeGeometry(neckShape, { depth: 5.9, bevelEnabled: true, bevelSegments: 1, bevelSize: 0.3, bevelThickness: 0.3 });
       const neckMesh = new THREE.Mesh(neckGeo, neckCollarMat);
-      neckMesh.position.z = -5.9; // داخل تجويف الكامة تماماً
+      neckMesh.position.z = -5.9;
       frontFlangeGroup.add(neckMesh);
 
-      // تجاويف رؤوس مسامير الآلان الغائرة
+      // Counterbore bolt recesses
       boltAngles.forEach(ang => {
         const bx = Math.cos(ang) * boltRadius;
         const by = Math.sin(ang) * boltRadius;
@@ -570,42 +540,16 @@
         frontFlangeGroup.add(cbHole);
       });
 
-      // التجويف الجانبي المخصص لتركيب البنز النحاسي (عند z = 9 في منتصف سمك الفلنشة)
+      // Lateral bore for brass cartridge pin
       const lateralBoreGeo = new THREE.CylinderGeometry(8.5, 8.5, 24, 28);
       const lateralBore = new THREE.Mesh(lateralBoreGeo, holeDarkMat);
       lateralBore.position.set(0, -31, 9);
       frontFlangeGroup.add(lateralBore);
 
-      // الكسر والشرخ الواقعي الدقيق (يمتد بكامل سمك الفلنشة من 0 إلى 18)
-      const crackShape = new THREE.Shape();
-      crackShape.moveTo(-1.2, -12);
-      crackShape.lineTo(1.2, -12);
-      crackShape.lineTo(2.0, -18);
-      crackShape.lineTo(2.8, -25);
-      crackShape.lineTo(1.8, -32);
-      crackShape.lineTo(1.0, -40);
-      crackShape.lineTo(-1.0, -40);
-      crackShape.lineTo(-2.2, -31);
-      crackShape.lineTo(-2.8, -24);
-      crackShape.lineTo(-1.6, -17);
-      crackShape.closePath();
-
-      const crackExtrudeSettings = { depth: 18.6, bevelEnabled: false, steps: 1 };
-      const crackGeo = new THREE.ExtrudeGeometry(crackShape, crackExtrudeSettings);
-      
-      crackMeshStress = new THREE.Mesh(crackGeo, stressCrackMat);
-      crackMeshStress.position.set(0, 0, -0.3);
-      frontFlangeGroup.add(crackMeshStress);
-
-      crackMeshRealistic = new THREE.Mesh(crackGeo, metalCrackMat);
-      crackMeshRealistic.position.set(0, 0, -0.3);
-      crackMeshRealistic.visible = false;
-      frontFlangeGroup.add(crackMeshRealistic);
-
       scene.add(frontFlangeGroup);
 
       // -------------------------------------------------------------
-      // 3. تجميعة البنز النحاسي الجانبي (تستقر في التجويف عند z = 9)
+      // 3. Brass Detent Pin Assembly
       // -------------------------------------------------------------
       brassAssemblyGroup = new THREE.Group();
       brassAssemblyGroup.position.set(0, -31, 9);
@@ -632,17 +576,7 @@
       scene.add(brassAssemblyGroup);
 
       // -------------------------------------------------------------
-      // 4. عمود الدوران (الأكس Shaft)
-      // -------------------------------------------------------------
-      const shaftGeo = new THREE.CylinderGeometry(11.8, 11.8, 140, 40);
-      driveShaftMesh = new THREE.Mesh(shaftGeo, groundShaftMat);
-      driveShaftMesh.rotation.x = Math.PI / 2;
-      driveShaftMesh.position.set(0, 0, 2);
-      driveShaftMesh.visible = false;
-      scene.add(driveShaftMesh);
-
-      // -------------------------------------------------------------
-      // 5. مسامير الربط الأربعة (مربوطة ومستقرة في رؤوسها عند z = 15)
+      // 4. Fasteners (4x Socket Head Bolts)
       // -------------------------------------------------------------
       const boltShaftGeo = new THREE.CylinderGeometry(3.4, 3.4, 28, 16);
       const boltHeadGeo = new THREE.CylinderGeometry(5.4, 5.4, 6, 20);
@@ -653,11 +587,11 @@
         const bx = Math.cos(ang) * boltRadius;
         const by = Math.sin(ang) * boltRadius;
         bg.userData = { baseX: bx, baseY: by };
-        bg.position.set(bx, by, 15); // مستقرة تماماً داخل تجويف رأس المسمار
+        bg.position.set(bx, by, 15);
 
         const shaft = new THREE.Mesh(boltShaftGeo, blackScrewMat);
         shaft.rotation.x = Math.PI / 2;
-        shaft.position.z = -14; // يمر عبر الفلنشة ويثبت داخل الكامة
+        shaft.position.z = -14;
         bg.add(shaft);
 
         const head = new THREE.Mesh(boltHeadGeo, blackScrewMat);
@@ -674,12 +608,12 @@
         scene.add(bg);
       });
 
-      // أرضية هندسية
+      // Engineering grid
       const grid = new THREE.GridHelper(300, 30, 0x30363d, 0x14181f);
       grid.position.y = -65;
       scene.add(grid);
 
-      // شريط التفكيك
+      // Exploded View range listener
       const rangeEl = document.getElementById('explodeRange');
       rangeEl.addEventListener('input', (e) => {
         applyExplodedView(parseFloat(e.target.value));
@@ -691,39 +625,16 @@
         toggleDashboard(false);
       }
 
-      // ضبط مبدئي على التجميع الكامل
       applyExplodedView(0);
       animate();
     }
 
-    // حركة التفكيك الميكانيكي الدقيقة: عند 0 تكون الأجزاء ملتصقة تماماً
     function applyExplodedView(val) {
-      // الفلنشة: عند 0 تكون عند z = 0 (ملتصقة بالكامة 100%)، وعند السحب تبتعد للأمام
       frontFlangeGroup.position.z = val * 55;
-
-      // البنز النحاسي: يتحرك مع الفلنشة في Z ويسحب للأسفل في Y
       brassAssemblyGroup.position.set(0, -31 - (val * 35), 9 + (val * 55));
-
-      // مسامير الربط الأربعة: عند 0 مستقرة تماماً داخل الفلنشة، وعند السحب تسحب أبعد من الفلنشة
       boltGroups.forEach(bg => {
         bg.position.z = 15 + (val * 90);
       });
-
-      // تحديث شارة الحالة
-      const badge = document.getElementById('assemblyBadge');
-      if (badge) {
-        if (val < 0.05) {
-          badge.style.background = "rgba(35, 134, 54, 0.15)";
-          badge.style.borderColor = "rgba(35, 134, 54, 0.4)";
-          badge.style.color = "#3fb950";
-          badge.innerHTML = "✅ الأجزاء مجمعة ومحكمة الربط حالياً (Zero Gap)";
-        } else {
-          badge.style.background = "rgba(56, 139, 253, 0.15)";
-          badge.style.borderColor = "rgba(56, 139, 253, 0.4)";
-          badge.style.color = "#79c0ff";
-          badge.innerHTML = `🔍 تم التفكيك بنسبة ${Math.round(val * 100)}% (كشف الرقبة والمقعد)`;
-        }
-      }
     }
 
     function setExplode(val) {
@@ -734,62 +645,25 @@
       applyExplodedView(val);
     }
 
-    // التحكم في زوايا الكاميرا
     function focusOn(target) {
       if (target === 'all') {
         targetCameraPos.set(120, 70, 130);
         targetLookAt.set(0, -10, 0);
+      } else if (target === 'front') {
+        targetCameraPos.set(0, -10, 130);
+        targetLookAt.set(0, -10, 0);
       } else if (target === 'pocket') {
-        // إذا كانت الأجزاء مجمعة، نفتح التفكيك تلقائياً لنظهر الرقبة والمقعد
         const rangeEl = document.getElementById('explodeRange');
         if (rangeEl && parseFloat(rangeEl.value) < 0.3) {
           setExplode(0.7);
         }
         targetCameraPos.set(45, 30, 25);
         targetLookAt.set(0, 0, 0);
-      } else if (target === 'crack') {
-        const zOff = frontFlangeGroup.position.z;
-        targetCameraPos.set(12, -18, zOff + 55);
-        targetLookAt.set(0, -26, zOff + 9);
       } else if (target === 'cam_back') {
         targetCameraPos.set(0, -10, -125);
         targetLookAt.set(0, -10, -7);
       }
       isTransitioning = true;
-    }
-
-    function toggleShaft() {
-      showShaft = !showShaft;
-      driveShaftMesh.visible = showShaft;
-      const btn = document.getElementById('shaftToggleBtn');
-      const quickBtn = document.getElementById('quickShaftBtn');
-      if (btn) {
-        btn.innerText = showShaft ? "🔩 إخفاء الأكس" : "🔩 إظهار الأكس النافذ";
-        btn.classList.toggle('active-btn', showShaft);
-      }
-      if (quickBtn) {
-        quickBtn.innerText = showShaft ? "🔩 إخفاء" : "🔩 الأكس";
-      }
-    }
-
-    function toggleStressMode(stress) {
-      isStressMode = stress;
-      crackMeshStress.visible = stress;
-      crackMeshRealistic.visible = !stress;
-      document.getElementById('modeStressBtn').classList.toggle('active-btn', stress);
-    }
-
-    function toggleAutoRotate() {
-      controls.autoRotate = !controls.autoRotate;
-      const btn = document.getElementById('rotateToggle');
-      const quickBtn = document.getElementById('quickRotateBtn');
-      if (btn) {
-        btn.innerText = controls.autoRotate ? "إيقاف الدوران التلقائي" : "تشغيل الدوران التلقائي";
-        btn.classList.toggle('active-btn', !controls.autoRotate);
-      }
-      if (quickBtn) {
-        quickBtn.innerText = controls.autoRotate ? "⏸️ دوران" : "▶️ دوران";
-      }
     }
 
     function toggleDashboard(forceState) {
